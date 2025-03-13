@@ -2,7 +2,7 @@
     <div class="container mx-auto p-4">
       <!-- Header with back button -->
       <div class="mb-6">
-        <Button icon="pi pi-arrow-left" severity="contrast" text @click="goBack" label="Wróć do wyboru stylu"/>
+        <Button class="test-bg" icon="pi pi-arrow-left" size="medium" severity="contrast" text @click="goBack" label="Wróć do wyboru stylu"/>
       </div>
   
       <!-- Main heading -->

@@ -15,7 +15,8 @@ import StepPanel from 'primevue/steppanel';
 import Step from 'primevue/step';
 import StepItem from 'primevue/stepitem';
 import Menu from 'primevue/menu';
-
+import BaseTextarea from './components/base/BaseTextarea.vue';
+import FloatLabel from 'primevue/floatlabel';
 // Import Tailwind CSS
 import './assets/main.css';
 
@@ -31,7 +32,11 @@ app.use(PrimeVue, {
                 class: [
                     // Success button styles
                     {
-                        '!bg-green-700 !border-green-700 hover:!bg-green-800 hover:!border-green-800': props.severity === 'success'
+                        ' !bg-green-700 !border-green-700 hover:!bg-green-800 hover:!border-green-800': props.severity === 'success'
+                    },
+                    // Size styles
+                    {
+                        'h-[40px]': props.size === 'medium'
                     }
                 ]
             }),
@@ -39,11 +44,17 @@ app.use(PrimeVue, {
                 class: [
                     // Success button styles
                     {
-                        '!font-medium': props.severity === 'success'
+                        '!font-medium text-sm': props.severity === 'success'
                     }
                 ]
             })
-        }
+        },
+        textarea: {
+            root: {
+                class: 'relative'
+            }
+        },
+        
     }
 });
 
@@ -61,4 +72,6 @@ app.component('StepPanel', StepPanel);
 app.component('Step', Step);
 app.component('StepItem', StepItem);
 app.component('Menu', Menu);
+app.component('Textarea', BaseTextarea);
+app.component('FloatLabel', FloatLabel);
 app.mount('#app');

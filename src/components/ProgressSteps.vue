@@ -4,12 +4,14 @@
       @click="toggleSteps"
       severity="primary"
       icon="pi pi-ellipsis-h"
+      class="test-bg"
+      size="medium"
     >
     </Button>
 
-    <Card v-if="isVisible" class="absolute top-auto -translate-y-[calc(100%+2.5rem)] left-0 z-50 w-80 sm:w-100 m-0 drop-shadow-lg">
+    <Card v-if="isVisible" class="absolute top-auto -translate-y-[calc(100%+2.5rem)] left-0 z-50 w-80 sm:w-100 m-0 drop-shadow-lg test-border">
       <template #content>
-        <Stepper :value="activeStep">
+        <Stepper class="test-bg" :value="activeStep">
           <StepItem value="1">
             <Step @click="handleStepClick('1')" class="cursor-pointer">
               <div :class="[

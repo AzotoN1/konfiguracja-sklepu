@@ -4,34 +4,34 @@
 
     <!-- Product addition options -->
     <div class="mb-4">
-      <Card class=" mb-2" :class="{ '!bg-green-50': productAdditionMethod === 'ai' }">
+      <Card class="mb-2 test-border" :class="{ '!bg-green-50': productAdditionMethod === 'ai' }">
         <template #content>
           <div class="flex justify-between items-center">
-            <div>
-              <RadioButton v-model="productAdditionMethod" inputId="aiProducts" name="productMethod" value="ai" />
+            <div class="flex items-center">
+              <RadioButton class="test-bg" v-model="productAdditionMethod" inputId="aiProducts" name="productMethod" value="ai" />
               <label for="aiProducts" class="ml-2 cursor-pointer">
                 Dodaj przykładowe produkty za pomocą AI
               </label>
             </div>
-            <Button icon="pi pi-sparkles" text severity="help" class="p-button-text ml-2" @click="editAIProducts" />
+            <Button icon="pi pi-sparkles" size="medium" text severity="help" class="p-button-text ml-2 test-bg" @click="editAIProducts" />
           </div>
         </template>
       </Card>
-      <Card class=" mb-2" :class="{ '!bg-green-50': productAdditionMethod === 'custom' }">
+      <Card class=" mb-2 test-border" :class="{ '!bg-green-50': productAdditionMethod === 'custom' }">
         <template #content>
-          <div class="flex items-center gap-1">
-            <RadioButton v-model="productAdditionMethod" inputId="customProducts" name="productMethod" value="custom" />
+          <div class="flex items-center">
+            <RadioButton class="test-bg" v-model="productAdditionMethod" inputId="customProducts" name="productMethod" value="custom" />
             <label for="customProducts" class="ml-2 cursor-pointer">
               Dodaj własne produkty
             </label>
           </div>
           <!-- Products list section -->
-          <Divider v-if="productAdditionMethod === 'custom'" />
+          <Divider v-if="productAdditionMethod === 'custom'" class="test-border" />
           <div v-if="productAdditionMethod === 'custom'" class="py-4 pt-0 bg-green-50 rounded-md mb-4">
             <div class="flex justify-between items-center mb-4">
               <h3 class="font-medium">Lista produktów</h3>
-              <Button label="Dodaj produkt" icon="pi pi-sort-down" severity="success" iconPos="right" @click="openAddProductMenu" />
-              <Menu ref="addProductMenu" :model="addProductMenuItems" :popup="true">
+              <Button size="medium" label="Dodaj produkt" icon="fa-solid fa-chevron-down" severity="success" iconPos="right" @click="openAddProductMenu" />
+              <Menu class="test-bg" ref="addProductMenu" :model="addProductMenuItems" :popup="true">
                 <template #item="{ item }">
                   <div class="flex items-center gap-2 cursor-pointer py-3 pl-5 hover:bg-green-100 bg">
                     <span class="">{{ item.label }}</span>
@@ -43,9 +43,14 @@
             <DataTable :value="products" responsiveLayout="scroll" class="mb-3" :pt="{
         column: {
           headerCell: {
-            class: ['text-white !bg-gray-200 !py-3'],
+            class: ['text-white !bg-gray-100 !py-3 text-xs !border-solid !border-gray-200 !border-x-0'],
           },
         },
+        tag: {
+          root: {
+            class: ['text-xs']
+          }
+        }
       }">
               <Column field="image" header="Produkt">
                 <template #body="slotProps">
@@ -53,24 +58,28 @@
                     class="w-12 h-12 object-cover rounded-md" />
                 </template>
               </Column>
-              <Column field="name" header="Nazwa" />
+              <Column field="name" header="Nazwa">
+                <template #body="slotProps">
+                  <span class="font-bold">{{ slotProps.data.name }}</span>
+                </template>
+              </Column>
               <Column field="price" header="Cena">
                 <template #body="slotProps">
                   {{ slotProps.data.price }} PLN
                 </template>
               </Column>
-              <Column field="actions" header="Akcja">
+              <Column field="actions" header="Akcja" class="w-6 !text-right">
                 <template #body="slotProps">
-                  <Menu ref="rowMenu" :model="actionMenuItems" :popup="true" />
-                  <Button icon="pi pi-ellipsis-h" text rounded severity="secondary"
-                    @click="(event) => openRowMenu(event, slotProps.data)" />
+                  <Menu class="test-bg" ref="rowMenu" :model="actionMenuItems" :popup="true" />
+                  <Button size="small" icon="pi pi-ellipsis-h" text rounded severity="secondary"
+                    @click="(event) => openRowMenu(event, slotProps.data)" class="test-bg flex justify-end" />
                 </template>
               </Column>
             </DataTable>
 
             <div class="flex items-center gap-2 text-sm">
-              <Button severity="secondary" size="small" @click="downloadCsv">produkty.csv</Button>
-              <Button icon="pi pi-trash" severity="contrast" text size="small" @click="downloadCsv" />
+              <Button class="test-bg" severity="secondary" size="medium" @click="downloadCsv">produkty.csv</Button>
+              <Button icon="pi pi-trash" class="test-bg" severity="contrast" text size="medium" @click="downloadCsv" />
             </div>
           </div>
         </template>
@@ -78,11 +87,11 @@
     </div>
   </div>
   <Button 
-        icon="pi pi-bolt" 
+        icon="pi pi-sparkles" 
         label="Wygeneruj sklep" 
-        class="!float-right"
+        class="!float-right test-bg"
         severity="help"
-        size="large"
+        size="medium"
         @click="generateStore" 
       />
 </template>

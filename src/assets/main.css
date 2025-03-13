@@ -4,3 +4,12 @@
 * {
     font-family: 'Inter', sans-serif;
 }
+/* 
+* .test-bg {
+    background-color: oklch(0.718 0.202 349.761) !important;
+    background: oklch(0.718 0.202 349.761) !important;
+}
+
+* .test-border {
+    border: 3px solid oklch(0.718 0.202 349.761) !important;
+} */

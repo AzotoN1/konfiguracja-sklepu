@@ -1,37 +1,21 @@
 <template>
-  <Form
-    v-slot="$form"
-    :initialValues="{
-      storeName: '',
-      taxNumber: '',
-    }"
-    @submit="onSubmit"
-    :validateOnInput="true"
-    :resolver
-  >
+  <Form v-slot="$form" :initialValues="{
+    storeName: '',
+    taxNumber: '',
+    companyDescription: ''
+  }" @submit="onSubmit" :validateOnInput="true" :resolver class="test-border">
     <!-- Store data section -->
     <div class="mb-6">
       <h2 class="text-xl font-semibold mb-4">Dane sklepu</h2>
 
       <div class="mb-4">
-        <label class="block mb-2">Nazwa sklepu *</label>
-        <FormField
-          v-slot="$field"
-          name="storeName"
-          :resolver="storeNameResolver"
-        >
-          <InputText
-            placeholder="Wpisz nazwę sklepu"
-            class="w-full"
-            size="large"
-          />
-          <Message
-            v-if="$field?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            >{{ $field.error?.message }}</Message
-          >
+        <FormField v-slot="$field" name="storeName" :resolver="storeNameResolver" class="test-border">
+          <FloatLabel for="storeName" label="Nazwa sklepu *" variant="on">
+            <InputText class="w-full" size="large" />
+            <label class="block mb-2">Nazwa sklepu *</label>
+          </FloatLabel>
+          <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}
+          </Message>
         </FormField>
       </div>
     </div>
@@ -41,42 +25,22 @@
       <h2 class="text-xl font-semibold mb-4">Dane firmy</h2>
 
       <div class="mb-4">
-        <label class="block mb-2">NIP</label>
-        <FormField v-slot="$field" name="taxNumber" :resolver="nipResolver">
-          <InputNumber
-            ref="nipInput"
-            placeholder="Podaj numer NIP"
-            :useGrouping="false"
-            class="w-full"
-            size="large"
-          />
-          <Message
-            v-if="$field?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            >{{ $field.error?.message }}</Message
-          >
+        <FormField v-slot="$field" name="taxNumber" :resolver="nipResolver" class="test-border">
+          <FloatLabel for="taxNumber" label="NIP" variant="on">
+            <InputNumber ref="nipInput" :useGrouping="false" class="w-full" size="large" />
+            <label class="block mb-2">NIP</label>
+          </FloatLabel>
+          <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}
+          </Message>
         </FormField>
       </div>
 
       <div class="flex items-center gap-2">
-        <Button
-          label="Pobierz z GUS"
-          severity="secondary"
-          @click="fetchFromGUS"
-          size="large"
-          type="button"
-        />
+        <Button label="Pobierz z GUS" :severity="isNipInvalid ? 'secondary' : 'success'" @click="fetchFromGUS"
+          size="medium" type="button" class="test-bg" />
         <div class="text-gray-500 ml-3">lub</div>
-        <Button
-          label="Wpisz ręcznie"
-          text
-          severity="contrast"
-          @click="enterManually"
-          size="large"
-          type="button"
-        />
+        <Button label="Wpisz ręcznie" text severity="contrast" @click="enterManually" size="medium" type="button"
+          class="test-bg" />
       </div>
     </div>
   </Form>
@@ -89,6 +53,8 @@ import InputNumber from "primevue/inputnumber";
 import { ref } from "vue";
 
 const nipInput = ref(null);
+const isNipInvalid = ref(true);
+const isLoading = ref(false);
 
 const storeNameResolver = ({ value }) => {
   const errors = [];
@@ -104,8 +70,9 @@ const storeNameResolver = ({ value }) => {
 
 const nipResolver = ({ value }) => {
   const errors = [];
-  const inputToString = value.toString();
-  if (inputToString.length !== 10) {
+  const inputToString = value?.toString() || '';
+  isNipInvalid.value = inputToString.length !== 10;
+  if (isNipInvalid.value) {
     errors.push({
       message: "NIP musi składać się z 10 cyfr",
     });
